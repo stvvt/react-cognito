@@ -6,7 +6,7 @@ interface AuthContextProps {
   user?: User | null;
 }
 
-const origin = window.location.origin;
+const origin = process.env.REACT_APP_ORIGIN || window.location.origin;
 const authority = 'https://reactapp.auth.eu-central-1.amazoncognito.com';
 const client_id = '7s7uifbd9p5rds9van1dtv6hmo';
 const userManager = new UserManager({
@@ -19,7 +19,7 @@ const userManager = new UserManager({
   post_logout_redirect_uri: `${origin}`,
   // response_type: 'id_token token',
   response_type: 'code',
-  userStore: new WebStorageStateStore({ store: window.sessionStorage }),
+  userStore: new WebStorageStateStore({ store: window.localStorage }),
   client_id,
   authority,
   metadata: {
@@ -45,16 +45,19 @@ const AuthContextProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<User | null>();
 
   useEffect(() => {
+    console.log({ origin });
+    const pathParts = window.location.pathname.split('/');
+    const lastPathPart = pathParts[pathParts.length - 1];
     (async () => {
-      switch (window.location.pathname) {
-        case '/callback':
+      switch (lastPathPart) {
+        case 'callback':
           await userManager.signinRedirectCallback();
           window.location.replace('/');
           return;
-        case '/silent_callback':
+        case 'silent_callback':
           await userManager.signinSilentCallback();
           return;
-        case '/logout':
+        case 'logout':
           await userManager.signoutRedirectCallback();
           window.location.replace('/');
           return;
