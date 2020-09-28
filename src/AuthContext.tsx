@@ -52,14 +52,14 @@ const AuthContextProvider: React.FC = ({ children }) => {
       switch (lastPathPart) {
         case 'callback':
           await userManager.signinRedirectCallback();
-          window.location.replace('/');
+          window.location.replace(origin);
           return;
         case 'silent_callback':
           await userManager.signinSilentCallback();
           return;
         case 'logout':
           await userManager.signoutRedirectCallback();
-          window.location.replace('/');
+          window.location.replace(origin);
           return;
       }
       const u = await userManager.getUser();
