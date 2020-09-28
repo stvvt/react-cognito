@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/stvvt/react-cognito.svg?branch=master)](https://travis-ci.com/stvvt/react-cognito)
+
 # AWS Cognito Proof of Concept App
 
 ## TLDR;
