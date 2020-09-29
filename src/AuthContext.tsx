@@ -6,7 +6,7 @@ const userManager = new UserManager({
   redirect_uri: `${config.origin}/callback`,
   scope: 'email openid profile',
   silent_redirect_uri: `${config.origin}/silent_callback`,
-  // popup_redirect_uri: `${origin}/authentication/popup_callback`,
+  // popup_redirect_uri: `${config.origin}/authentication/popup_callback`,
   automaticSilentRenew: true,
   loadUserInfo: true,
   post_logout_redirect_uri: config.origin,
@@ -43,21 +43,20 @@ const AuthContextProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<User | null>();
 
   useEffect(() => {
-    console.log({ origin });
     const pathParts = window.location.pathname.split('/');
     const lastPathPart = pathParts[pathParts.length - 1];
     (async () => {
       switch (lastPathPart) {
         case 'callback':
           await userManager.signinRedirectCallback();
-          window.location.replace(origin);
+          window.location.replace(config.origin);
           return;
         case 'silent_callback':
           await userManager.signinSilentCallback();
           return;
         case 'logout':
           await userManager.signoutRedirectCallback();
-          window.location.replace(origin);
+          window.location.replace(config.origin);
           return;
       }
       const u = await userManager.getUser();
