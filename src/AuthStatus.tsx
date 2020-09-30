@@ -1,8 +1,9 @@
 import React, { } from 'react';
 import { useAuth } from './AuthContext';
+import userManager from './auth/UserManager';
 
 const AuthStatus: React.FC = () => {
-  const { userManager, user } = useAuth();
+  const { user } = useAuth();
 
   const handleLogout = () => {
     userManager.signoutRedirect();
