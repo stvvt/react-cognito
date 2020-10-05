@@ -24,8 +24,12 @@ const AuthStatus: React.FC = () => {
   if (user) {
     return (<>
       <p>
-        Logged in as {user.profile.email}
+        Logged in as {user.profile.email} ({user.profile.email_verified ? '+' : '-'})
       </p>
+      <img src={user.profile.picture} alt="Profile avatar" />
+      <h1>Wellcome, {user.profile.name}</h1>
+      <p>from {user.profile.identities[0].providerName}</p>
+      <hr />
       <pre>
         {JSON.stringify(user, null, '  ')}
       </pre>
